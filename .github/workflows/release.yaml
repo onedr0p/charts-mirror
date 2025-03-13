@@ -11,7 +11,7 @@ jobs:
     name: Get Changed Files
     runs-on: ubuntu-latest
     outputs:
-      repos: ${{ steps.extract.outputs.repos }}
+      charts: ${{ steps.charts.outputs.charts }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,8 +22,8 @@ jobs:
         with:
           files: charts/**/metadata.yaml
 
-      - name: Extract Helm Repos
-        id: extract
+      - name: Extract Chart values
+        id: charts
         env:
           FILTER: '[.]'
         run: |
