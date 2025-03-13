@@ -58,4 +58,4 @@ jobs:
 
       - name: Push Chart
         run: |
-          echo "Pushing chart ${{ matrix.registry }}/${{ matrix.chart }}:${{ matrix.version }}"
+          echo "Pushing chart ${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version }}"
