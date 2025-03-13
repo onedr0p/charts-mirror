@@ -68,7 +68,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add Helm Repository
-        run: helm repo add main https://${{ matrix.charts.registry }}
+        run: helm repo add main ${{ matrix.charts.registry }}
 
       - name: Update Helm Repository
         run: helm repo update main
