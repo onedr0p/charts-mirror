@@ -1,0 +1,4 @@
+---
+registry: charts.jetstack.io
+chart: cert-manager
+version: v1.16.0

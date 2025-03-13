@@ -1,0 +1,61 @@
+---
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["charts/**/metadata.yaml"]
+
+jobs:
+  changed-charts:
+    name: Get Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      repos: ${{ steps.extract.outputs.repos }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: charts/**/metadata.yaml
+
+      - name: Extract Helm Repos
+        id: extract
+        env:
+          FILTER: '[.]'
+        run: |
+          charts=$(yq --indent=0 --output-format=json "${FILTER}" \
+              ${{ steps.changed-files.outputs.all_changed_and_modified_files }} \
+          )
+          echo "charts=${charts}" >> $GITHUB_OUTPUT
+
+  push-charts:
+    needs: changed-charts
+    name: Push Charts
+    runs-on: ubuntu-latest
+    if: ${{ needs.changed-charts.outputs.charts != '[]' }}
+    strategy:
+      matrix:
+        charts: ${{ fromJSON(needs.changed-charts.outputs.charts) }}
+      max-parallel: 4
+      fail-fast: false
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Chart
+        run: |
+          echo "Pushing chart ${{ matrix.registry }}/${{ matrix.chart }}:${{ matrix.version }}"
