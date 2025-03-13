@@ -4,7 +4,7 @@ name: Release
 on:
   push:
     branches: ["main"]
-    paths: ["charts/**/metadata.yaml"]
+    # paths: ["charts/**/metadata.yaml"]
 
 jobs:
   changed-charts:
