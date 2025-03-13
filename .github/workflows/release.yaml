@@ -6,6 +6,11 @@ on:
     branches: ["main"]
     paths: ["charts/**/metadata.yaml"]
 
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
 jobs:
   changed-charts:
     name: Get Changed Files
@@ -43,6 +48,9 @@ jobs:
       max-parallel: 4
       fail-fast: false
     steps:
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -58,4 +66,10 @@ jobs:
 
       - name: Push Chart
         run: |
-          echo "Pushing chart ${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version }}"
+          docker pull ${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
+          docker tag ${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version}} \
+              ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
+          docker push ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
+
+      - name: Sign artifacts with Cosign
+        run: cosign sign --yes ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
