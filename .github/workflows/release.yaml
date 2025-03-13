@@ -81,7 +81,7 @@ jobs:
         run: helm pull oci://${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }} --version ${CHART_VERSION}
 
       - name: Push Chart
-        run: helm push *.tgz oci://ghcr.io/${{ github.repository }}/charts
+        run: helm push *.tgz oci://ghcr.io/${{ github.repository }}
 
       - name: Sign artifacts with Cosign
-        run: cosign sign --yes ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version }}
+        run: cosign sign --yes ghcr.io/${{ github.repository }}/${{ matrix.charts.chart }}:${{ matrix.charts.version }}
