@@ -52,6 +52,9 @@ jobs:
       max-parallel: 4
       fail-fast: false
     steps:
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
       - name: Install Cosign
         uses: sigstore/cosign-installer@v3
 
@@ -68,12 +71,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Format Variables
+        run: |
+          CHART_VERSION=${{ matrix.charts.version }}
+          CHART_VERSION=${CHART_VERSION#v}
+          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+
       - name: Push Chart
         run: |
-          docker pull ${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
-          docker tag ${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }}:${{ matrix.charts.version}} \
-              ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
-          docker push ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
+          helm pull ${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }} --version ${CHART_VERSION}
+          helm push ${{ matrix.charts.chart }}-${CHART_VERSION}.tgz oci://ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${CHART_VERSION}
 
       - name: Sign artifacts with Cosign
-        run: cosign sign --yes ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${{ matrix.charts.version}}
+        run: cosign sign --yes ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${CHART_VERSION}
