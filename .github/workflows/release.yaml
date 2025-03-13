@@ -77,10 +77,11 @@ jobs:
           CHART_VERSION=${CHART_VERSION#v}
           echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
 
+      - name: Pull Chart
+        run: helm pull oci://${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }} --version ${CHART_VERSION}
+
       - name: Push Chart
-        run: |
-          helm pull oci://${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }} --version ${CHART_VERSION}
-          helm push ${{ matrix.charts.chart }}-${CHART_VERSION}.tgz oci://ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${CHART_VERSION}
+        run: helm push *.tgz oci://ghcr.io/${{ github.repository }}/charts
 
       - name: Sign artifacts with Cosign
         run: cosign sign --yes ghcr.io/${{ github.repository }}/charts/${{ matrix.charts.chart }}:${CHART_VERSION}
