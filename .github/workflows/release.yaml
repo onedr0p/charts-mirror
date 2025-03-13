@@ -11,10 +11,6 @@ permissions:
   id-token: write
   packages: write
 
-env:
-  # Ref: https://github.com/container-registry/helm-charts-oci-proxy
-  CHARTPROXY_URL: chartproxy.container-registry.com
-
 jobs:
   changed-charts:
     name: Get Changed Files
@@ -71,14 +67,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Format Variables
-        run: |
-          CHART_VERSION=${{ matrix.charts.version }}
-          CHART_VERSION=${CHART_VERSION#v}
-          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+      - name: Add Helm Repository
+        run: helm repo add main https://${{ matrix.charts.registry }}
+
+      - name: Update Helm Repository
+        run: helm repo update main
 
       - name: Pull Chart
-        run: helm pull oci://${{ env.CHARTPROXY_URL }}/${{ matrix.charts.registry }}/${{ matrix.charts.chart }} --version ${CHART_VERSION}
+        run: helm pull main/${{ matrix.charts.chart }} --version ${{ matrix.charts.version }}
 
       - name: Push Chart
         run: helm push *.tgz oci://ghcr.io/${{ github.repository }}

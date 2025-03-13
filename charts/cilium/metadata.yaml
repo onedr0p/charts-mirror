@@ -2,4 +2,4 @@
 registry: helm.cilium.io
 chart: cilium
 version: 1.17.0
-counter: 11
+counter: 12
