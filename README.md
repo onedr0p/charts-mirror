@@ -16,4 +16,4 @@
     version: <chart-version>
     ```
 
-4. Open a PR with the link to the upstream issue tracking OCI Helm Chart support.
+4. Open a PR with the link in the description to the upstream issue tracking OCI Helm Chart support.
