@@ -1,8 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":automergeBranch",
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":semanticCommits"
   ],
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   "customManagers": [
     {
       "customType": "regex",
@@ -10,6 +16,35 @@
       "fileMatch": ["(^|/)metadata\\.ya?ml$"],
       "matchStrings": ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
       "datasourceTemplate": "helm",
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat",
+      "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}})!:",
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
+      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+    },
+    {
+      "matchDatasources": ["helm"],
+      "semanticCommitScope": "helm",
+      "commitMessageTopic": "chart {{depName}}"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "github-action",
+      "commitMessageTopic": "action {{depName}}"
     }
   ]
 }
