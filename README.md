@@ -5,9 +5,9 @@
 
 ## Contributing
 
-1. Verify the chart doesn't already have an official OCI Helm Chart
-2. Create a new folder under `charts/` with the chart name
-3. Add a `metadata.yaml` file with the contents
+1. Verify the chart doesn't already have an official OCI Helm Chart.
+2. Create a new directory under `charts/` with the chart name.
+3. Add a `metadata.yaml` to that new directory file with the contents:
 
     ```yaml
     ---
