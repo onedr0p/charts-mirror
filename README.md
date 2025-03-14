@@ -56,9 +56,9 @@ spec:
 
     ```yaml
     ---
-    registry: <registry-url>
-    chart: <chart-name>
-    version: <chart-version>
+    registry: ${REGISTRY_URL}
+    chart: ${CHART_NAME}
+    version: ${CHART_VERSION}
     ```
 
 4. Open a PR with the link in the description to the upstream issue tracking OCI Helm Chart support.
