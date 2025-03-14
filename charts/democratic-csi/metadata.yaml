@@ -1,0 +1,4 @@
+---
+registry: https://raw.githubusercontent.com/democratic-csi/charts/refs/heads/master/stable/democratic-csi
+chart: democratic-csi
+version: 0.14.7
