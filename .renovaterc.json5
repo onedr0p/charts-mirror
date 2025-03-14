@@ -20,6 +20,23 @@
   ],
   "packageRules": [
     {
+      "description": "Auto-merge Helm Charts",
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "ignoreTests": true
+    },
+    {
+      "description": ["Auto-merge GitHub Actions"],
+      "matchManagers": ["github-actions"],
+      "matchDatasources": ["github-tags"],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "ignoreTests": true
+    },
+    {
       "matchUpdateTypes": ["major"],
       "semanticCommitType": "feat",
       "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}})!:",
