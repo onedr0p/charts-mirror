@@ -1,0 +1,4 @@
+---
+registry: https://piraeus.io/helm-charts/
+chart: snapshot-controller
+version: 4.0.1
