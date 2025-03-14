@@ -52,7 +52,7 @@ spec:
 
 1. Verify the chart doesn't already have an official OCI Helm Chart.
 2. Create a new directory under `charts/` with the chart name.
-3. Add a `metadata.yaml` to that new directory file with the contents:
+3. Add a `metadata.yaml` to that new directory file with the contents and update the variables to reflect the chart you are adding:
 
     ```yaml
     ---
