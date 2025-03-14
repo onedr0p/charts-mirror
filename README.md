@@ -37,6 +37,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: ${NAME}
+  namespace: ${NAMESPACE}
 spec:
   interval: 1h
   chartRef:
