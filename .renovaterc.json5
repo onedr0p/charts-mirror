@@ -7,7 +7,7 @@
     {
       "customType": "regex",
       "description": ["Process Chart versions"],
-      "fileMatch": ["(^|/)metadata/.+\\.ya?ml$"],
+      "fileMatch": ["(^|/)metadata\\.ya?ml$"],
       "matchStrings": ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
       "datasourceTemplate": "helm",
     }
