@@ -1,0 +1,4 @@
+---
+registry: https://wiremind.github.io/wiremind-helm-charts/
+chart: silence-operator-crds
+version: 0.0.2
