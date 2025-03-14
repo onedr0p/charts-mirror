@@ -1,0 +1,4 @@
+---
+registry: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/refs/heads/master/deployment/helm/node-feature-discovery
+chart: node-feature-discovery
+version: 0.2.1
