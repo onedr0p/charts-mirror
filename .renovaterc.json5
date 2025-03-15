@@ -15,7 +15,7 @@
       "description": ["Process Chart versions"],
       "fileMatch": ["(^|/)metadata\\.ya?ml$"],
       "matchStrings": ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
-      "datasourceTemplate": "helm",
+      "datasourceTemplate": "helm"
     }
   ],
   "packageRules": [
@@ -30,10 +30,10 @@
     {
       "description": ["Auto-merge GitHub Actions"],
       "matchManagers": ["github-actions"],
-      "matchDatasources": ["github-tags"],
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["minor", "patch", "digest"],
+      "minimumReleaseAge": "3 days",
       "ignoreTests": true
     },
     {
