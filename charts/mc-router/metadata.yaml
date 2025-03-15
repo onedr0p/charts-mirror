@@ -1,0 +1,4 @@
+---
+registry: https://itzg.github.io/minecraft-server-charts/
+chart: mc-router
+version: 1.2.4
