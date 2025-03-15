@@ -2,3 +2,4 @@
 registry: https://helm.cilium.io
 chart: cilium
 version: 1.17.2
+toggle: true
