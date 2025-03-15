@@ -1,0 +1,4 @@
+---
+registry: https://itzg.github.io/minecraft-server-charts/
+chart: minecraft
+version: 4.25.0
