@@ -1,0 +1,4 @@
+---
+registry: https://ori-edge.github.io/k8s_gateway/
+chart: k8s-gateway
+version: 2.4.0
