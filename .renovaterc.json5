@@ -16,8 +16,8 @@
   ],
   customManagers: [
     {
+      description: "Process metadata.yaml",
       customType: "regex",
-      description: "Process Chart versions",
       fileMatch: ["(^|/)metadata\\.ya?ml$"],
       matchStrings: ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
       datasourceTemplate: "helm",
