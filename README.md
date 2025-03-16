@@ -1,6 +1,6 @@
 # OCI Helm Charts Mirror
 
-This is a stop-gap mirror of OCI Helm Charts that can be used until maintainers of upstream charts publish them. See the issue [here](https://github.com/onedr0p/charts-mirror/issues/6) for tracking the progress of upstream support for OCI charts added here.
+This is my personal stop-gap mirror of OCI Helm Charts that can be used until maintainers of upstream charts publish them. See the issue [here](https://github.com/onedr0p/charts-mirror/issues/6) for tracking the progress of upstream support for OCI charts added here.
 
 > [!CAUTION]
 > If you wish to use these charts understand it is **your responsiblity to make sure to change to the official OCI chart as soon as possible** as they will be deprecated here. I bare **no resposibility** for you **not paying close attention to this repository and the changes herein**.
