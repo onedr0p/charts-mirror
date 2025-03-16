@@ -8,6 +8,11 @@ on:
   push:
     branches: ["main"]
     paths: ["charts/**/metadata.yaml"]
+  workflow_dispatch:
+    inputs:
+      chart:
+        description: Chart to release
+        required: true
 
 permissions:
   contents: read
@@ -25,6 +30,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Get Changed Files
+        if: ${{ github.event_name != 'workflow_dispatch' }}
         id: changed-files
         uses: tj-actions/changed-files@2f7c5bfce28377bc069a65ba478de0a74aa0ca32 # v46
         with:
@@ -32,12 +38,13 @@ jobs:
 
       - name: Extract Chart values
         id: charts
-        env:
-          FILTER: '[.]'
         run: |
-          charts=$(yq eval-all --indent=0 --output-format=json "${FILTER}" \
-              ${{ steps.changed-files.outputs.all_changed_and_modified_files }} \
-          )
+          if [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
+            charts="${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
+          else
+            charts="charts/${{ github.event.inputs.chart }}/metadata.yaml"
+          fi
+          charts=$(yq eval-all --indent=0 --output-format=json "[.]" $charts)
           echo "charts=${charts}" >> $GITHUB_OUTPUT
 
   push-charts:
