@@ -1,67 +1,72 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
     "config:recommended",
+    "helpers:pinGitHubActionDigests",
     ":automergeBranch",
     ":dependencyDashboard",
     ":disableRateLimiting",
-    ":semanticCommits"
+    ":semanticCommits",
+    ":timezone(America/New_York)",
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": ["Process Chart versions"],
-      "fileMatch": ["(^|/)metadata\\.ya?ml$"],
-      "matchStrings": ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
-      "datasourceTemplate": "helm"
-    }
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  suppressNotifications: [
+    "prEditedNotification",
+    "prIgnoreNotification",
   ],
-  "packageRules": [
+  customManagers: [
     {
-      "description": "Auto-merge Helm Charts",
-      "matchDatasources": ["helm"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "ignoreTests": true
+      customType: "regex",
+      description: "Process Chart versions",
+      fileMatch: ["(^|/)metadata\\.ya?ml$"],
+      matchStrings: ["registry: (?<registryUrl>\\S+)\nchart: (?<depName>\\S+)\nversion: (?<currentValue>\\S+)"],
+      datasourceTemplate: "helm",
+    },
+  ],
+  packageRules: [
+    {
+      description: "Auto-merge Helm Charts",
+      matchDatasources: ["helm"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["major", "minor", "patch"],
+      ignoreTests: true,
     },
     {
-      "description": ["Auto-merge GitHub Actions"],
-      "matchManagers": ["github-actions"],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": ["minor", "patch", "digest"],
-      "minimumReleaseAge": "3 days",
-      "ignoreTests": true
+      description: "Auto-merge GitHub Actions",
+      matchManagers: ["github-actions"],
+      automerge: true,
+      automergeType: "branch",
+      matchUpdateTypes: ["minor", "patch", "digest"],
+      minimumReleaseAge: "3 days",
+      ignoreTests: true,
     },
     {
-      "matchUpdateTypes": ["major"],
-      "semanticCommitType": "feat",
-      "commitMessagePrefix": "{{semanticCommitType}}({{semanticCommitScope}})!:",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      matchUpdateTypes: ["major"],
+      semanticCommitType: "feat",
+      commitMessagePrefix: "{{semanticCommitType}}({{semanticCommitScope}})!:",
+      commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
     },
     {
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": "feat",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      matchUpdateTypes: ["minor"],
+      semanticCommitType: "feat",
+      commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
     },
     {
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": "fix",
-      "commitMessageExtra": "( {{currentVersion}} → {{newVersion}} )"
+      matchUpdateTypes: ["patch"],
+      semanticCommitType: "fix",
+      commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
     },
     {
-      "matchDatasources": ["helm"],
-      "semanticCommitScope": "helm",
-      "commitMessageTopic": "chart {{depName}}"
+      matchDatasources: ["helm"],
+      semanticCommitScope: "helm",
+      commitMessageTopic: "chart {{depName}}",
     },
     {
-      "matchManagers": ["github-actions"],
-      "semanticCommitType": "ci",
-      "semanticCommitScope": "github-action",
-      "commitMessageTopic": "action {{depName}}"
-    }
-  ]
+      matchManagers: ["github-actions"],
+      semanticCommitType: "ci",
+      semanticCommitScope: "github-action",
+      commitMessageTopic: "action {{depName}}",
+    },
+  ],
 }
