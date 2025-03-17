@@ -1,5 +1,8 @@
 # OCI Helm Charts Mirror
 
+> [!WARNING]
+> This repository has moved [here](https://github.com/home-operations/charts-mirror) and will be deleted on or after March 17, 2026.
+
 This is my personal stop-gap mirror of OCI Helm Charts that can be used until maintainers of upstream charts publish them. See the issue [here](https://github.com/onedr0p/charts-mirror/issues/6) for tracking the progress of upstream support for OCI charts added here.
 
 > [!CAUTION]
